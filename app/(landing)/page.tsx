@@ -1,7 +1,9 @@
+import HeroSection from "./home/hero";
+
 export default function Home() {
   return (
-    <div className="bg-primary">
-      <p>hello!</p>
+    <div>
+      <HeroSection/>
     </div>
   );
 }
