@@ -4,7 +4,7 @@ import ProductsSection from "./home/products";
 
 export default function Home() {
   return (
-    <main>
+    <main className="pb-52">
       <HeroSection/>
       <CategoriesSection/>
       <ProductsSection/>
