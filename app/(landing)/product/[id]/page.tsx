@@ -31,13 +31,11 @@ const ProductDetail = async ({params} : TProductId) => {
         <div className="bg-primary-light rounded-full text-primary py-2 px-6 w-fit mb-5">
           {product.category.name}
         </div>
-        <p className="leading-loose mb-8">
-          {product.description}
-        </p>
+        <p className="leading-loose mb-8">{product.description}</p>
         <div className="text-primary text-[32px] font-semibold mb-12">
           {priceFormatter(product.price)}
         </div>
-        <ProductActions />
+        <ProductActions product={product} stock={product.stock} />
       </div>
     </main>
   );
