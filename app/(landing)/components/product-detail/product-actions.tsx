@@ -6,12 +6,11 @@ import {
   FiChevronUp,
   FiShoppingBag,
 } from "react-icons/fi";
-import { useCartStore } from "@/app/hooks/use-cart-store";
+// import { useCartStore } from "@/app/hooks/use-cart-store";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Button from "../ui/button";
 import { Product } from "@/app/types";
-import { log } from "console";
 
 type TProductActionsProps = {
   product: Product;
@@ -19,7 +18,7 @@ type TProductActionsProps = {
 };
 
 const ProductActions = ({ product, stock }: TProductActionsProps) => {
-  const { addItem } = useCartStore();
+  // const { addItem } = useCartStore();
   const { push } = useRouter();
   const [qty, setQty] = useState(1);
 
