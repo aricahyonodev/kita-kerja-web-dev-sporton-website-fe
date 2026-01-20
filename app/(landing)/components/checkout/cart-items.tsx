@@ -1,15 +1,16 @@
 "use client";
 
 import Image from "next/image";
-import { cartList } from "../ui/cart-popup";
 import priceFormatter from "@/app/utils/price-formatter";
 import Button from "../ui/button";
 import { FiCreditCard, FiTrash2 } from "react-icons/fi";
 import { useRouter } from "next/navigation";
 import CardWithHeader from "../ui/card-with-header";
+import { useCartStore } from "@/app/hooks/use-cart-store";
 
 const CartItems = () => {
   const { push } = useRouter();
+  const { items, removeItem } = useCartStore();
 
   const totalPrice = cartList.reduce(
     (total, item) => total + item.price * item.qty,
@@ -19,7 +20,7 @@ const CartItems = () => {
   return (
     <CardWithHeader title="Cart Items">
       <div className="overflow-auto max-h-[300px]">
-        {cartList.map((item, index) => (
+        {items.map((item, index) => (
           <div className="border-b border-gray-200 p-4 flex gap-3" key={index}>
             <div className="bg-primary-light aspect-square w-16 flex justify-center items-center">
               <Image
@@ -41,6 +42,7 @@ const CartItems = () => {
               size="small"
               variant="ghost"
               className="w-7 h-7 p-0! self-center ml-auto"
+              onClick={() => removeItem(item._id)}
             >
               <FiTrash2 />
             </Button>
