@@ -6,14 +6,57 @@ import priceFormatter from "@/app/utils/price-formatter";
 import Button from "../ui/button";
 import { useRouter } from "next/navigation";
 import FileUpload from "../ui/file-upload";
+import { useCartStore } from "@/app/hooks/use-cart-store";
+import { transactionCheckout } from "@/app/services/transaction.service";
+import { useState } from "react";
 
 const PaymentSteps = () => {
   const { push } = useRouter();
+  const [file, setFile] = useState<File | null>();
+  const { items, customerInfo, reset } = useCartStore();
+  const totalPrice = items.reduce(
+    (total, item) => total + item.price * item.qty,
+    0,
+  );
 
-  const uploadAndConfirm = () => {
-    push("/order-status/123123123");
+  const handleConfirmPayment = async () => {
+    if (!file) {
+      alert("Please upload your payment receipt!");
+      return;
+    }
+
+    if (!customerInfo) {
+      alert("Customer information is missing, please return to checkout");
+      push("/checkout");
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append("customerName", customerInfo.customerName);
+      formData.append(
+        "customerContact",
+        customerInfo.customerContact!.toString(),
+      );
+      formData.append("customerAddress", customerInfo.customerAddress);
+      formData.append("image", file);
+      formData.append(
+        "purchasedItems",
+        JSON.stringify(
+          items.map((item) => ({ productId: item._id, qty: item.qty })),
+        ),
+      );
+      formData.append("totalPayment", totalPrice!.toString());
+
+      const res = await transactionCheckout(formData);
+
+      alert("Transaction created successfully!");
+      reset();
+      push(`/order-status/${res._id}`);
+    } catch (error) {
+      console.log(error);
+    }
   };
-
   return (
     <CardWithHeader title="Payment Steps">
       <div className="p-5">
@@ -33,7 +76,7 @@ const PaymentSteps = () => {
             transaction.
           </li>
         </ol>
-        <FileUpload />
+        <FileUpload onFileSelect={setFile} />
       </div>
 
       <div className="border-t border-gray-200 p-4">
@@ -44,7 +87,7 @@ const PaymentSteps = () => {
         <Button
           variant="dark"
           className="w-full mt-4"
-          onClick={uploadAndConfirm}
+          onClick={handleConfirmPayment}
         >
           <FiCheckCircle />
           Upload Receipt & Confirm
