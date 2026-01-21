@@ -6,9 +6,6 @@ import { getAllBanks } from "@/app/services/bank.service";
 const PaymentOptions = async () => {
  const banks = await getAllBanks();
 
- console.log(banks);
- 
-
   return (
     <CardWithHeader title="Payment Options">
       {banks.map((payment) => (
