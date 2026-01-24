@@ -2,12 +2,38 @@
 
 import Button from "@/app/(landing)/components/ui/button";
 import { FiPlus } from "react-icons/fi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProductTable from "../../components/products/product-table";
 import ProductModal from "../../components/products/product-modal";
+import { Product } from "@/app/types";
+import { getAllProducts } from "@/app/services/product.service";
 
 const ProductManagement = () => {
+  const [products, setProducts] = useState<Product[]>([]);
   const [isOpen, setIsOpen] = useState(false);
+
+  const fetchProducts = async () => {
+    try {
+      const data = await getAllProducts();
+      if (data) {
+        setProducts(data);
+      }
+    } catch (error) {
+      console.error("Failed to fetch products", error);
+    }
+  };
+
+  const handleEdit = (product: Product) => {
+    // TODO: implement edit
+  };
+
+  const handleDelete = (id: string) => {
+    // TODO: implement delete
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   const handleCloseModal = () => {
     setIsOpen(false);
@@ -25,7 +51,11 @@ const ProductManagement = () => {
           Add Product
         </Button>
       </div>
-      <ProductTable />
+      <ProductTable
+        products={products}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+      />
       <ProductModal isOpen={isOpen} onClose={handleCloseModal} />
     </div>
   );
