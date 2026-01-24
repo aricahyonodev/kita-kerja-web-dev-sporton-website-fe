@@ -52,6 +52,12 @@ const LoginPage = () => {
           Enter your credentials to access the dashboard
         </p>
 
+        {errorMessage && (
+          <div className="px-3 py-1 bg-primary-light border border-primary rounded-md text-primary text-sm text-center w-full mb-2">
+            {errorMessage}
+          </div>
+        )}
+
         <div className="input-group-admin mb-5">
           <label htmlFor="email">Email</label>
           <input
@@ -60,7 +66,7 @@ const LoginPage = () => {
             name="email"
             placeholder="Please type your email"
             className="rounded-lg!"
-             onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div className="input-group-admin mb-12">
@@ -71,7 +77,7 @@ const LoginPage = () => {
             name="password"
             placeholder="••••••••••••••••••••"
             className="rounded-lg!"
-             onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
         <Button className="w-full rounded-lg! mb-8" onClick={handleLogin}>
