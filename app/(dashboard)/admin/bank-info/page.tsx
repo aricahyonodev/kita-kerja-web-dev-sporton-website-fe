@@ -19,6 +19,7 @@ const BankInfoManagement = () => {
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
+    setSelectedBank(null)
   };
 
   const fetchBanks = async () => {
@@ -51,6 +52,10 @@ const BankInfoManagement = () => {
      }
    };
 
+   const handlEdit = (bank: Bank) => {
+     setSelectedBank(bank);
+     setIsModalOpen(true);
+   };
 
   useEffect(() => {
     fetchBanks();
@@ -70,8 +75,13 @@ const BankInfoManagement = () => {
           Add Bank Account
         </Button>
       </div>
-      <BankInfoList banks={banks} onDelete={handleDelete} />
-      <BankInfoModal isOpen={isModalOpen} onClose={handleCloseModal} />
+      <BankInfoList banks={banks} onEdit={handlEdit} onDelete={handleDelete} />
+      <BankInfoModal
+        isOpen={isModalOpen}
+        onSuccess={fetchBanks}
+        onClose={handleCloseModal}
+        bank={selectedBank}
+      />
       <DeleteModal
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
