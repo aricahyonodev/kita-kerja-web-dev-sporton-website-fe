@@ -10,7 +10,7 @@ import { getImageUrl } from "@/app/lib/api";
 type TtransactionModalProps = {
   isOpen: boolean;
   onClose: () => void;
-  transaction: transaction | null;
+  transaction: Transaction | null;
   onStatusChange: (id: string, status: "paid" | "rejected") => Promise<void>;
 };
 
