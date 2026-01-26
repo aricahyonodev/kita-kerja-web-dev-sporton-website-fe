@@ -1,28 +1,15 @@
+import { Bank } from "@/app/types";
 import { FiCreditCard, FiEdit2, FiTrash2 } from "react-icons/fi";
 
-const bankData = [
-  {
-    bankName: "BCA",
-    accountNumber: "123123",
-    accountName: "PT SportOn Digital Indonesia",
-  },
-  {
-    bankName: "Mandiri",
-    accountNumber: "1212312313123",
-    accountName: "PT SportOn Digital Indonesia",
-  },
-  {
-    bankName: "BRI",
-    accountNumber: "1123123123",
-    accountName: "PT SportOn Digital Indonesia",
-  },
-];
+type TBankInfoListProps = {
+  banks: Bank[];
+};
 
-const BankInfoList = () => {
+const BankInfoList = ({ banks }: TBankInfoListProps) => {
   return (
     <div className="grid grid-cols-3 gap-8">
-      {bankData.map((data, index) => (
-        <div className="bg-white rounded-lg border border-gray-200" key={index}>
+      {banks.map((data) => (
+        <div className="bg-white rounded-lg border border-gray-200" key={data?._id}>
           <div className="flex justify-between p-5">
             <div className="flex gap-2 items-center">
               <div className="bg-blue-50 text-blue-600 rounded w-12 h-12 flex justify-center items-center">
