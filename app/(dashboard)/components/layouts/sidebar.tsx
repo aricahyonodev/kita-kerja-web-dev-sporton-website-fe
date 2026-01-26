@@ -72,7 +72,7 @@ const Sidebar = () => {
         })}
       </div>
       <button
-        className="cursor-pointer flex gap-3 font-medium py-3 px-4.5 mx-5 hover:bg-gray-100 duration-300 rounded-lg mt-auto mb-10"
+        className="flex gap-3 font-medium py-3 px-4.5 mx-5 hover:bg-gray-100 duration-300 rounded-lg mt-auto mb-10"
         onClick={handleLogout}
       >
         <FiLogOut size={24} />
