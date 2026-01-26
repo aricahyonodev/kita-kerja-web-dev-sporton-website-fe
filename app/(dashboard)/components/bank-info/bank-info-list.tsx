@@ -3,13 +3,17 @@ import { FiCreditCard, FiEdit2, FiTrash2 } from "react-icons/fi";
 
 type TBankInfoListProps = {
   banks: Bank[];
+  onDelete: (id: string) => void;
 };
 
-const BankInfoList = ({ banks }: TBankInfoListProps) => {
+const BankInfoList = ({ banks, onDelete }: TBankInfoListProps) => {
   return (
     <div className="grid grid-cols-3 gap-8">
       {banks.map((data) => (
-        <div className="bg-white rounded-lg border border-gray-200" key={data?._id}>
+        <div
+          className="bg-white rounded-lg border border-gray-200"
+          key={data?._id}
+        >
           <div className="flex justify-between p-5">
             <div className="flex gap-2 items-center">
               <div className="bg-blue-50 text-blue-600 rounded w-12 h-12 flex justify-center items-center">
@@ -24,7 +28,10 @@ const BankInfoList = ({ banks }: TBankInfoListProps) => {
               <button className="cursor-pointer">
                 <FiEdit2 size={20} />
               </button>
-              <button className="cursor-pointer">
+              <button
+                className="cursor-pointer"
+                onClick={() => onDelete(data._id)}
+              >
                 <FiTrash2 size={20} />
               </button>
             </div>

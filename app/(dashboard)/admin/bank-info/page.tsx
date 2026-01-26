@@ -4,17 +4,21 @@ import Button from "@/app/(landing)/components/ui/button";
 import { FiPlus } from "react-icons/fi";
 import { useEffect, useState } from "react";
 import BankInfoModal from "../../components/bank-info/bank-info-modal";
-import { getAllBanks } from "@/app/services/bank.service";
+import { deleteBank, getAllBanks } from "@/app/services/bank.service";
 import { Bank } from "@/app/types";
 import BankInfoList from "../../components/bank-info/bank-info-list";
+import { toast } from "react-toastify";
+import DeleteModal from "../../components/ui/delete-modal";
 
 const BankInfoManagement = () => {
    const [isModalOpen, setIsModalOpen] = useState(false);
    const [banks, setBanks] = useState<Bank[]>([]);
    const [selectedBank, setSelectedBank] = useState<Bank | null>(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [bankToDeleteId, setBankToDeleteId] = useState("");
 
   const handleCloseModal = () => {
-    setIsOpen(false);
+    setIsModalOpen(false);
   };
 
   const fetchBanks = async () => {
@@ -25,6 +29,28 @@ const BankInfoManagement = () => {
       console.error("Failed to fetch bank data", error);
     }
   };
+
+    const handleDelete = (id: string) => {
+      setBankToDeleteId(id);
+      setIsDeleteModalOpen(true);
+    };
+
+
+   const handlDeleteConfirm = async () => {
+     if (!bankToDeleteId) return;
+
+     try {
+       await deleteBank(bankToDeleteId);
+       toast.success("Bank info deleted succesfully");
+       setBankToDeleteId("");
+       setIsDeleteModalOpen(false);
+       fetchBanks();
+     } catch (error) {
+       console.error("Failed to delete bank info");
+       toast.error("Failed to delete bank info ");
+     }
+   };
+
 
   useEffect(() => {
     fetchBanks();
@@ -44,8 +70,13 @@ const BankInfoManagement = () => {
           Add Bank Account
         </Button>
       </div>
-      <BankInfoList banks={banks}  />
+      <BankInfoList banks={banks} onDelete={handleDelete} />
       <BankInfoModal isOpen={isModalOpen} onClose={handleCloseModal} />
+      <DeleteModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={handlDeleteConfirm}
+      />
     </div>
   );
 };
