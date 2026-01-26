@@ -17,7 +17,6 @@ const ProductManagement = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
-
   const fetchProducts = async () => {
     try {
       const data = await getAllProducts();
