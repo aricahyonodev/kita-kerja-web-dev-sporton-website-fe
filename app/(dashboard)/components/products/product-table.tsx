@@ -54,10 +54,16 @@ const ProductTable = ({ products, onDelete, onEdit }: TProductTableProps) => {
               </td>
               <td className="px-6 py-4 font-medium">{data.stock} units</td>
               <td className="px-6 py-7.5 flex items-center gap-3 text-gray-600">
-                <button className="cursor-pointer" onClick={() => onEdit?.(data)}>
+                <button
+                  onClick={() => onEdit?.(data)}
+                  className="cursor-pointer"
+                >
                   <FiEdit2 size={20} />
                 </button>
-                <button className="cursor-pointer" onClick={() => onDelete?.(data._id)}>
+                <button
+                  className="cursor-pointer"
+                  onClick={() => onDelete?.(data._id)}
+                >
                   <FiTrash2 size={20} />
                 </button>
               </td>

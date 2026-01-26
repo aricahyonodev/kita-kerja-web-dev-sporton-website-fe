@@ -12,9 +12,11 @@ import { toast } from "react-toastify";
 
 const ProductManagement = () => {
   const [products, setProducts] = useState<Product[]>([]);
-  const [isOpen, setIsOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [productToDeleteId, setProductToDeleteId] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+
 
   const fetchProducts = async () => {
     try {
@@ -28,7 +30,8 @@ const ProductManagement = () => {
   };
 
   const handleEdit = (product: Product) => {
-    // TODO: implement edit
+       setSelectedProduct(product);
+       setIsModalOpen(true);
   };
 
   const handleDelete = (id: string) => {
@@ -41,7 +44,8 @@ const ProductManagement = () => {
   }, []);
 
   const handleCloseModal = () => {
-    setIsOpen(false);
+    setIsModalOpen(false);
+    setSelectedProduct(null)
   };
 
    const handleDeleteConfirm = async () => {
@@ -65,7 +69,7 @@ const ProductManagement = () => {
           <h1 className="font-bold text-2xl">Product Management</h1>
           <p className="opacity-50">Manage your inventory, prices and stock.</p>
         </div>
-        <Button className="rounded-lg" onClick={() => setIsOpen(true)}>
+        <Button className="rounded-lg" onClick={() => setIsModalOpen(true)}>
           <FiPlus size={24} />
           Add Product
         </Button>
@@ -75,7 +79,12 @@ const ProductManagement = () => {
         onEdit={handleEdit}
         onDelete={handleDelete}
       />
-      <ProductModal isOpen={isOpen} onClose={handleCloseModal} />
+      <ProductModal
+        product={selectedProduct}
+        onSuccess={fetchProducts}
+        isOpen={isModalOpen}
+        onClose={(handleCloseModal)}
+      />
       <DeleteModal
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
