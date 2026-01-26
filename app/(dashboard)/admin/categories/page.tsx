@@ -9,6 +9,7 @@ import { deleteCategory, getAllCategories } from "@/app/services/category.servic
 import { Category } from "@/app/types";
 import { toast } from "react-toastify";
 import DeleteModal from "../../components/ui/delete-modal";
+import CategoryModal from "../../components/categories/category-modal";
 
 const CategoryManagement = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -79,9 +80,12 @@ const CategoryManagement = () => {
         onDelete={handleDelete}
         onEdit={handleEdit}
       />
-
-      <CategorytModal isOpen={isModalOpen} onClose={handleCloseModal} />
-
+      <CategoryModal
+        category={selectedCategory}
+        onSuccess={fetchCategories}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+      />
       <DeleteModal
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}

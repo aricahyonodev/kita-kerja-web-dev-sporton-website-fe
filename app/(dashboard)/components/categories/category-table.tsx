@@ -1,6 +1,5 @@
 import { getImageUrl } from "@/app/lib/api";
 import { Category } from "@/app/types";
-import priceFormatter from "@/app/utils/price-formatter";
 import Image from "next/image";
 import { FiEdit2, FiTrash2 } from "react-icons/fi";
 
@@ -48,7 +47,7 @@ const CategoryTable = ({
               </td>
               <td className="px-6 py-4 font-medium">{data.description}</td>
               <td className="px-6 py-7.5 flex items-center gap-3 text-gray-600">
-                <button>
+                <button onClick={() => onEdit?.(data)}>
                   <FiEdit2 size={20} />
                 </button>
                 <button onClick={() => onDelete?.(data._id)}>
